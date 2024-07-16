@@ -5,7 +5,7 @@ import ThemeTogglebutton from "./ThemeToggle";
 
 export default function HomeNavbar() {
   return (
-    <div className="bg-[#EEF1FF] dark:bg-[#040D12] p-2 flex w-full items-center justify-around">
+    <div className="bg-[#D2DAFF] dark:bg-[#1B2430] p-2 flex w-full items-center justify-around">
       <div>
         <Avatar className="w-12 h-12">
           <AvatarImage src="/2.png" alt="" className="dark:hidden" />
