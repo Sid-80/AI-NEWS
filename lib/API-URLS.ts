@@ -1,0 +1,1 @@
+export const getNewsPublicUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}/news`
