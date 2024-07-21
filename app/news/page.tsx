@@ -1,7 +1,8 @@
 "use client"
 
+import HomeNavbar from "@/components/shared/HomeNavbar";
 import { getNewsPublicUrl } from "@/lib/API-URLS";
-import axios from "axios";
+import axiosInstance from "@/lib/AxiosInstance";
 import { useEffect, useState } from "react"
 
 export default function Page() {
@@ -9,13 +10,15 @@ export default function Page() {
 
     useEffect(()=>{
         const getData = async() => {
-            const res = await axios.get(getNewsPublicUrl);
+            const res = await axiosInstance.get(getNewsPublicUrl);
             console.log(res.data)
         }
         getData();
     },[])
 
   return (
-    <div>Page</div>
+    <div>
+      <HomeNavbar />
+    </div>
   )
 }
