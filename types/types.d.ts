@@ -8,10 +8,13 @@ export type NEWS = {
     summary:string;
 }
 
-export interface USER{
+export interface LoginUser{
+    email:string;
+    password:string;
+}
+
+export interface USER extends LoginUser{
     firstname:string;
     lastname:string;
     phone:string;
-    email:string;
-    password:string;
 }

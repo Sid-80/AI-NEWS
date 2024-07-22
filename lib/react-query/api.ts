@@ -1,10 +1,11 @@
 import { USER } from "@/types/types";
 import axios from "axios";
+import { logoutUrl, signinUrl, signupUrl } from "../API-URLS";
 
 export const createNewUser = async (User: USER) => {
   try {
     const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/user/signin`,
+      signupUrl,
       User,
       {
         headers: {
@@ -21,7 +22,7 @@ export const createNewUser = async (User: USER) => {
 export const loginUser = async (email: string, password: string) => {
   try {
     const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/user/login`,
+      signinUrl,
       { email, password },
       {
         headers: {
@@ -38,7 +39,7 @@ export const loginUser = async (email: string, password: string) => {
 export const logoutUser = async (_id: string) => {
   try {
     const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/user/logout`,
+      logoutUrl,
       { _id },
       {
         headers: {
