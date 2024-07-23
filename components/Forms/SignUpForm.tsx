@@ -3,6 +3,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
+import { signupUrl } from "@/lib/API-URLS";
+import axiosInstance from "@/lib/AxiosInstance";
 import {
   Form,
   FormControl,
@@ -57,14 +59,19 @@ export function SignupForm() {
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
-    //   const res = await axios.post(registerUserUrl, {
-    //     firstName: data.firstName,
-    //     lastName: data.lastName,
-    //     email: data.email,
-    //     password: data.password,
-    //   }, {
-    //     headers: { "Content-Type": "application/json" }
-    //   });
+      const res = await axiosInstance.post(signupUrl, {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        password: data.password,
+      }, {
+        headers: { "Content-Type": "application/json" }
+      });
+
+      if(res.status === 201) {
+        // signup success full
+        router.push("/signin");
+      }
 
     } catch (err) {}
   }
