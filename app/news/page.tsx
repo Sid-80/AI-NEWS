@@ -9,21 +9,20 @@ import Link from "next/link";
 import { useEffect, useState } from "react"
 
 export default function Page() {
-    const [newsData,setNewsData] = useState<NEWS[] | null>(null);
+    const [newsData,setNewsData] = useState<NEWS[] | null>(null); 
 
     useEffect(()=>{
         const getData = async() => {
             const res = await axiosInstance.get(getNewsPublicUrl);
-            console.log(res.data)
             setNewsData(res.data);
         }
         getData();
     },[])
-
+    
   return (
-    <div className="flex flex-col items-center justify-center overflow-hidden">
+    <div className="flex flex-col items-center justify-center overflow-x-hidden">
       <HomeNavbar />
-      <div className="flex-1 flex flex-col items-center justify-center sm:py-10 sm:gap-4">
+      <div className="flex-1 flex flex-col items-center justify-center p-4 sm:py-10 sm:gap-4">
         {/* {
           newsData && newsData.map((news)=>(
             <NewsCard news={news} key={news._id} />

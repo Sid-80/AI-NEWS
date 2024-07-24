@@ -14,9 +14,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { LogInIcon } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Separator } from "../ui/separator";
+import { useLogin } from "@/lib/react-query/mutations";
+import { useToast } from "../ui/use-toast";
 
 const FormSchema = z.object({
   email: z.string().email().min(1, {
@@ -29,6 +29,9 @@ const FormSchema = z.object({
 
 export function SigninForm() {
   const router = useRouter();
+  const { mutateAsync: signinUser, isPending: loadingResponse, isError, isSuccess } = useLogin();
+
+  const {toast} = useToast()
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -41,9 +44,18 @@ export function SigninForm() {
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
       const {email,password} = data;
-
-    } catch (err) {
-      console.log(err);
+      const result = await signinUser({
+        password,
+        email,
+      });
+      if(isSuccess){
+        toast({title:"Welcome to SMARTBRIEFS!"})
+      }
+    } catch (err:any) {
+      toast({
+        title:"Error!!",
+        description:err.response.data.error
+      })
     }
   }
 

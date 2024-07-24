@@ -4,6 +4,10 @@ import React, { useEffect, useId, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useOutsideClick } from "../hooks/useOutsideClick";
 import { NEWS } from "@/types/types";
+import { useSelector } from "react-redux";
+import { RootState } from "@/lib/redux/store";
+import Link from "next/link";
+import { Badge } from "./badge";
 
 type Props = {
     cards:NEWS[];
@@ -17,6 +21,7 @@ export function ExpandableCardDemo({cards,ctxText,ctxLink}:Props) {
   );
   const ref = useRef<HTMLDivElement>(null);
   const id = useId();
+  const isAuth = useSelector((state:RootState)=>state.auth.isAuth);
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
@@ -45,7 +50,7 @@ export function ExpandableCardDemo({cards,ctxText,ctxLink}:Props) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/20 h-full w-full z-10"
+        className="fixed inset-0 bg-black/20 h-full w-full z-10"
           />
         )}
       </AnimatePresence>
@@ -99,9 +104,13 @@ export function ExpandableCardDemo({cards,ctxText,ctxLink}:Props) {
                     </motion.h3>
                     <motion.p
                       layoutId={`description-${active.summary}-${id}`}
-                      className="text-neutral-600 dark:text-neutral-400"
+                      className="text-neutral-600 flex gap-1 dark:text-neutral-400"
                     >
-                      {active.summary}
+                      {active.tags.map((tag,index)=>(
+                        <Badge key={index}>
+                          {tag}
+                        </Badge>
+                      ))}
                     </motion.p>
                   </div>
 
@@ -122,7 +131,9 @@ export function ExpandableCardDemo({cards,ctxText,ctxLink}:Props) {
                     exit={{ opacity: 0 }}
                     className="text-neutral-600 text-xs md:text-sm lg:text-base h-40 md:h-fit pb-10 flex flex-col items-start gap-4 overflow-auto dark:text-neutral-400 [mask:linear-gradient(to_bottom,white,white,transparent)] [scrollbar-width:none] [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch]"
                   >
-                    {active.summary}
+                    {
+                      active.summary === "" ? active.summary : <Link href={'/signin'} className="underline">Login to get insights!!</Link>
+                    }
                   </motion.div>
                 </div>
               </div>
@@ -130,16 +141,16 @@ export function ExpandableCardDemo({cards,ctxText,ctxLink}:Props) {
           </div>
         ) : null}
       </AnimatePresence>
-      <ul className="max-w-2xl mx-auto w-full gap-4">
-        {cards.map((card: NEWS, index: any) => (
+      <ul className="max-w-2xl flex flex-col mx-auto w-full gap-4">
+        {cards.map((card: NEWS, index: any) => (    
           <motion.div
             layoutId={`card-${card.headline}-${id}`}
             key={`card-${card.headline}-${id}`}
             onClick={() => setActive(card)}
-            className="p-4 flex flex-col md:flex-row justify-between items-center hover:bg-neutral-50 dark:hover:bg-neutral-800 rounded-xl cursor-pointer"
+            className="p-4 flex border border-gray-600 flex-col md:flex-row justify-between items-center hover:bg-neutral-50 dark:hover:bg-neutral-800 rounded-xl cursor-pointer"
           >
             <div className="flex gap-4 flex-col md:flex-row ">
-              <motion.div layoutId={`image-${card.headline}-${id}`}>
+              <motion.div layoutId={`image-${card.headline}-${id}`} >
                 <Image
                   width={100}
                   height={100}

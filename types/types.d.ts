@@ -14,7 +14,11 @@ export interface LoginUser{
 }
 
 export interface USER extends LoginUser{
-    firstname:string;
-    lastname:string;
-    phone:string;
+    firstName:string;
+    lastName:string;
+}
+
+export type UserVerify = {
+    email:string;
+    otp:string;
 }

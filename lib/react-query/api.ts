@@ -1,9 +1,8 @@
 import { USER } from "@/types/types";
 import axios from "axios";
-import { logoutUrl, signinUrl, signupUrl } from "../API-URLS";
+import { logoutUrl, signinUrl, signupUrl, verifyOtpUrl } from "../API-URLS";
 
 export const createNewUser = async (User: USER) => {
-  try {
     const response = await axios.post(
       signupUrl,
       User,
@@ -14,13 +13,9 @@ export const createNewUser = async (User: USER) => {
       }
     );
     return response;
-  } catch (err) {
-    console.log(err);
-  }
 };
 
 export const loginUser = async (email: string, password: string) => {
-  try {
     const response = await axios.post(
       signinUrl,
       { email, password },
@@ -31,13 +26,9 @@ export const loginUser = async (email: string, password: string) => {
       }
     );
     return response;
-  } catch (err) {
-    console.log(err);
-  }
 };
 
 export const logoutUser = async (_id: string) => {
-  try {
     const response = await axios.post(
       logoutUrl,
       { _id },
@@ -48,7 +39,18 @@ export const logoutUser = async (_id: string) => {
       }
     );
     return response;
-  } catch (err) {
-    console.log(err);
-  }
+};
+
+export const verifyOtp = async (otp: string, email:string) => {
+    const e = email.split("%40")[0] +"@"+ email.split("%40")[1];
+    const response = await axios.post(
+      verifyOtpUrl,
+      { otp,email:e},
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response;
 };

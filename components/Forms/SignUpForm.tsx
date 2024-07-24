@@ -15,6 +15,10 @@ import { Input } from "@/components/ui/input";
 import { LogInIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useSignIn } from "@/lib/react-query/mutations";
+import Loader from "../shared/Loader";
+
+import { useToast } from "../ui/use-toast";
 
 const FormSchema = z
   .object({
@@ -39,11 +43,14 @@ const FormSchema = z
     path: ["confirmPwd"],
   });
 
-
 export function SignupForm() {
   const router = useRouter();
-
-
+  const {
+    mutateAsync: newUser,
+    isPending: loadingResponse,
+    isSuccess,
+    isError
+  } = useSignIn();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -54,19 +61,24 @@ export function SignupForm() {
       confirmPwd: "",
     },
   });
-
+  const { toast } = useToast();
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
-    //   const res = await axios.post(registerUserUrl, {
-    //     firstName: data.firstName,
-    //     lastName: data.lastName,
-    //     email: data.email,
-    //     password: data.password,
-    //   }, {
-    //     headers: { "Content-Type": "application/json" }
-    //   });
+      await newUser({
+        firstName: data.firstName,
+        lastName: data.lastName,
+        password: data.password,
+        email: data.email,
+      });
+        if (isSuccess)
+          toast({title:"User Registered!!",description:" Check mail to verify mail"});
 
-    } catch (err) {}
+    } catch (err:any) {
+      toast({
+        title: `${err.response.data.error}`,
+      });
+    }
+
   }
 
   return (
@@ -141,23 +153,27 @@ export function SignupForm() {
           )}
         />
 
-<p className=" text-xs text-center text-gray-400">
-            Already have an account?{" "}
-            <Link href={`/signin`} className=" underline">
-              Sign in
-            </Link>
-          </p>
+        <p className=" text-xs text-center text-gray-400">
+          Already have an account?{" "}
+          <Link href={`/signin`} className=" underline">
+            Sign in
+          </Link>
+        </p>
 
         <div className="flex flex-col gap-4 w-full">
           <p className=" text-xs text-gray-400 w-full"></p>
 
           <div className="flex items-center justify-center">
             <Button type="submit" className="flex gap-2 font-semibold">
-              Register <LogInIcon className="w-5 h-5" />
+              {loadingResponse ? (
+                <Loader />
+              ) : (
+                <>
+                  Register <LogInIcon className="w-5 h-5" />
+                </>
+              )}
             </Button>
           </div>
-
-
         </div>
       </form>
     </Form>

@@ -4,6 +4,7 @@ import "./globals.css";
 import { Providers } from "@/components/Providers/ThemeProvider";
 import ReduxProvider from "@/components/Providers/ReduxProvider";
 import QueryProvider from "@/components/Providers/TanstackProvider";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,10 +20,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.className} overflow-x-hidden`}>
         <Providers>
           <ReduxProvider>
-            <QueryProvider>{children}</QueryProvider>
+            <QueryProvider>
+              {children}
+              <Toaster />
+            </QueryProvider>
           </ReduxProvider>
         </Providers>
       </body>
