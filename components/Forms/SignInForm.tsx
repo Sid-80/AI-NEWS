@@ -17,6 +17,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useLogin } from "@/lib/react-query/mutations";
 import { useToast } from "../ui/use-toast";
+import Loader from "../shared/Loader";
+import { useDispatch, useSelector } from "react-redux";
+import { logIn } from "@/lib/redux/Auth/auth-slice";
+import { RootState } from "@/lib/redux/store";
 
 const FormSchema = z.object({
   email: z.string().email().min(1, {
@@ -29,9 +33,19 @@ const FormSchema = z.object({
 
 export function SigninForm() {
   const router = useRouter();
-  const { mutateAsync: signinUser, isPending: loadingResponse, isError, isSuccess } = useLogin();
+  const dispatch = useDispatch()
+  const {
+    mutateAsync: signinUser,
+    isPending: loadingResponse,
+    isError,
+    isSuccess,
+  } = useLogin();
 
-  const {toast} = useToast()
+  const isAuth = useSelector((state:RootState)=>state.auth.isAuth);
+
+  if(isAuth) router.push('/dashboard')
+
+  const { toast } = useToast();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -43,19 +57,27 @@ export function SigninForm() {
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
-      const {email,password} = data;
-      const result = await signinUser({
+      const { email, password } = data;
+      const res = await signinUser({
         password,
         email,
       });
-      if(isSuccess){
-        toast({title:"Welcome to SMARTBRIEFS!"})
+      if (isSuccess) {
+        toast({ title: "Welcome to SMARTBRIEFS!" });
+        dispatch(logIn({
+          id:res.data.user._id,
+          email: res.data.user.email,
+          accessToken: res.data.accessToken,
+          refreshToken: res.data.refreshToken,
+          isAuth:true
+        }))
+        router.push('/dashboard')
       }
-    } catch (err:any) {
+    } catch (err: any) {
       toast({
-        title:"Error!!",
-        description:err.response.data.error
-      })
+        title: "Error!!",
+        description: err.response.data.error,
+      });
     }
   }
 
@@ -99,21 +121,30 @@ export function SigninForm() {
             </FormItem>
           )}
         />
-          <p className=" text-xs text-center text-gray-400">
-            Don&apos;t have an account?{" "}
-            <Link href={`/signup`} className=" underline">
-              Sign up
-            </Link>
-          </p>
+        <p className=" text-xs text-center text-gray-400">
+          Don&apos;t have an account?{" "}
+          <Link href={`/signup`} className=" underline">
+            Sign up
+          </Link>
+        </p>
         <div className="flex flex-col gap-4 w-full">
           <p className=" text-xs text-gray-400 w-full"></p>
 
           <div className="flex items-center justify-center">
-            <Button type="submit" className="flex gap-2 font-semibold">
-              Login <LogInIcon className="w-5 h-5" />
+            <Button
+              disabled={loadingResponse}
+              type="submit"
+              className="flex gap-2 font-semibold"
+            >
+              {loadingResponse ? (
+                <Loader />
+              ) : (
+                <>
+                  Login <LogInIcon className="w-5 h-5" />
+                </>
+              )}
             </Button>
           </div>
-
         </div>
       </form>
     </Form>

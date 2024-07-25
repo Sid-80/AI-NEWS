@@ -53,6 +53,11 @@ export function SignupForm() {
     isSuccess,
     isError
   } = useSignIn();
+
+  const isAuth = useSelector((state:RootState)=>state.auth.isAuth);
+
+  if(isAuth) router.push('/dashboard')
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
