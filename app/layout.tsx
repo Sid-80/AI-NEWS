@@ -20,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} overflow-x-hidden`}>
+      <body className={`${inter.className} bg-secondary overflow-x-hidden`}>
         <Providers>
           <ReduxProvider>
             <QueryProvider>

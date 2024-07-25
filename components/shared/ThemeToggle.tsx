@@ -9,8 +9,8 @@ export default function ThemeTogglebutton({ className = "" }) {
   return (
     <Button
       size="icon"
-      className={cn("bg-transparent ml-5", className)}
-      variant="outline"
+      className={cn("ml-5", className)}
+      variant="ghost"
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
     >
       <Sun className="dark:block hidden" />

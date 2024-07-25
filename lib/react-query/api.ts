@@ -1,6 +1,7 @@
 import { USER } from "@/types/types";
 import axios from "axios";
 import { logoutUrl, signinUrl, signupUrl, verifyOtpUrl } from "../API-URLS";
+import createAxiosInstance from "../ProtectedAxiosInstance";
 
 export const createNewUser = async (User: USER) => {
     const response = await axios.post(
@@ -28,15 +29,11 @@ export const loginUser = async (email: string, password: string) => {
     return response;
 };
 
-export const logoutUser = async (_id: string) => {
-    const response = await axios.post(
+export const logoutUser = async (_id: string, accessToken:string) => {
+    const axiosInstance = createAxiosInstance(accessToken);
+    const response = await axiosInstance.post(
       logoutUrl,
-      { _id },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
+      { _id }
     );
     return response;
 };

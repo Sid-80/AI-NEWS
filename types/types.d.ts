@@ -22,3 +22,8 @@ export type UserVerify = {
     email:string;
     otp:string;
 }
+
+export type LogoutUser = {
+    email:string;
+    otp:string;
+}

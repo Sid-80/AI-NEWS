@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query"
 import { createNewUser, loginUser, logoutUser, verifyOtp } from "./api"
-import { LoginUser, USER, UserVerify } from "@/types/types"
+import { LoginUser, LogoutUser, USER, UserVerify } from "@/types/types"
 
 export const useSignIn = () => {
     return useMutation({
@@ -21,7 +21,7 @@ export const useLogin = () => {
 
 export const useLogout = () => {
     return useMutation({
-        mutationFn : (_id:string) => logoutUser(_id)
+        mutationFn : ({id,accessToken}:LogoutUser) => logoutUser(id,accessToken)
     })
 }
 
