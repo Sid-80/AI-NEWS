@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query"
-import { createNewUser, loginUser, logoutUser, verifyOtp } from "./api"
+import { checkHealth, createNewUser, loginUser, logoutUser, verifyOtp } from "./api"
 import { LoginUser, LogoutUser, USER, UserVerify } from "@/types/types"
 
 export const useSignIn = () => {
@@ -28,5 +28,11 @@ export const useLogout = () => {
 export const useVerifyOtp = () => {
     return useMutation({
         mutationFn : (cred:UserVerify) => verifyOtp(cred.otp,cred.email)
+    })
+}
+
+export const useCheckHealth = () => {
+    return useMutation({
+        mutationFn : ({id,accessToken}:any) => checkHealth(id,accessToken)
     })
 }

@@ -7,11 +7,11 @@ export default function Layout({
     children: React.ReactNode;
   }>) {
     return (
-      <html lang="en">
-        <body className={`h-screen w-screen overflow-hidden`}>
+          <div className=' overflow-hidden w-screen h-screen'>
+
             <Navbar />
             {children}
-        </body>
-      </html>
+
+          </div>
     );
   }

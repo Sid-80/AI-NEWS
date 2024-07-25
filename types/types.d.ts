@@ -24,6 +24,6 @@ export type UserVerify = {
 }
 
 export type LogoutUser = {
-    email:string;
-    otp:string;
+    id:string;
+    accessToken:string;
 }
