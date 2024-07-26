@@ -1,6 +1,6 @@
-import { USER } from "@/types/types";
+import { USER, UserResetPassword } from "@/types/types";
 import axios from "axios";
-import { healthUrl, forgetPasswordUrl, logoutUrl, signinUrl, signupUrl, verifyOtpUrl } from "../API-URLS";
+import { healthUrl, forgetPasswordUrl, logoutUrl, signinUrl, signupUrl, verifyOtpUrl, resetPasswordUrl } from "../API-URLS";
 import createAxiosInstance from "../ProtectedAxiosInstance";
 
 export const createNewUser = async (User: USER) => {
@@ -40,6 +40,19 @@ export const forgetPassword = async (email: string) => {
       }
     );
     return response;
+};
+
+export const resetPassword = async ( data:UserResetPassword) => {
+  const response = await axios.post(
+    resetPasswordUrl,
+    { email:data.email, token:data.token, newPassword : data.password },
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  return response;
 };
 
 export const logoutUser = async (_id: string, accessToken:string) => {

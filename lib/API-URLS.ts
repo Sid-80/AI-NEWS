@@ -5,5 +5,6 @@ export const signinUrl = `${backendUrl}/api/v1/user/login`
 export const logoutUrl = `${backendUrl}/api/v1/user/logout`
 export const verifyOtpUrl = `${backendUrl}/api/v1/user/verify-otp`;
 export const forgetPasswordUrl = `${backendUrl}/api/v1/user/forget-password`;
+export const resetPasswordUrl = `${backendUrl}/api/v1/user/forget-password-final`;
 
 export const healthUrl = `${backendUrl}/api/v1/user/health`

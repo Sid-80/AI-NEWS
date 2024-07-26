@@ -32,3 +32,9 @@ export type LogoutUser = {
 export type UserForgetRequest = {
     email:string;
 }
+
+export type UserResetPassword = {
+    email:string;
+    token:string;
+    password:string;
+}
