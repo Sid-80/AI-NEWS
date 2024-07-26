@@ -26,9 +26,6 @@ const FormSchema = z.object({
   email: z.string().email().min(1, {
     message: "Email required!",
   }),
-  password: z.string().min(8, {
-    message: "Minimum Length should be 8",
-  }),
 });
 
 export function ForgetPasswordForm() {
@@ -51,7 +48,6 @@ export function ForgetPasswordForm() {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       email: "",
-      password: "",
     },
   });
 
@@ -61,9 +57,12 @@ export function ForgetPasswordForm() {
       const res = await requestForgetPassword({
         email,
       });
-      if (isSuccess) {
+      if(res.status === 200){
         toast({ title: "Forget Password Request Initiated. Check your Email For Further Process" });
       }
+      // if (isSuccess) {
+      //   toast({ title: "Forget Password Request Initiated. Check your Email For Further Process" });
+      // }
     } catch (err: any) {
       toast({
         title: "Error!!",
@@ -101,6 +100,7 @@ export function ForgetPasswordForm() {
               disabled={loadingResponse}
               type="submit"
               className="flex gap-2 font-semibold"
+              onSubmit={form.handleSubmit(onSubmit)}
             >
               {loadingResponse ? (
                 <Loader />
