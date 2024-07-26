@@ -27,3 +27,7 @@ export type LogoutUser = {
     email:string;
     otp:string;
 }
+
+export type UserForgetRequest = {
+    email:string;
+}

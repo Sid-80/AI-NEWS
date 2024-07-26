@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import { LogInIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useLogin } from "@/lib/react-query/mutations";
+import { useForgetPasswordRequest, useLogin } from "@/lib/react-query/mutations";
 import { useToast } from "../ui/use-toast";
 import Loader from "../shared/Loader";
 import { useDispatch, useSelector } from "react-redux";
@@ -31,15 +31,15 @@ const FormSchema = z.object({
   }),
 });
 
-export function SigninForm() {
+export function ForgetPasswordForm() {
   const router = useRouter();
   const dispatch = useDispatch()
   const {
-    mutateAsync: signinUser,
+    mutateAsync: requestForgetPassword,
     isPending: loadingResponse,
     isError,
     isSuccess,
-  } = useLogin();
+  } = useForgetPasswordRequest();
 
   const isAuth = useSelector((state:RootState)=>state.auth.isAuth);
 
@@ -57,21 +57,12 @@ export function SigninForm() {
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
-      const { email, password } = data;
-      const res = await signinUser({
-        password,
+      const { email } = data;
+      const res = await requestForgetPassword({
         email,
       });
       if (isSuccess) {
-        toast({ title: "Welcome to SMARTBRIEFS!" });
-        dispatch(logIn({
-          id:res.data.user._id,
-          email: res.data.user.email,
-          accessToken: res.data.accessToken,
-          refreshToken: res.data.refreshToken,
-          isAuth:true
-        }))
-        router.push('/dashboard')
+        toast({ title: "Forget Password Request Initiated. Check your Email For Further Process" });
       }
     } catch (err: any) {
       toast({
@@ -100,33 +91,8 @@ export function SigninForm() {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem className="w-full p-4">
-              <div className="flex w-full items-center justify-between">
-                <FormLabel className="px-2">Password</FormLabel>
-                <Link
-                  href={`/forget-password`}
-                  className=" text-xs text-gray-400 underline"
-                >
-                  Forgot password?{" "}
-                </Link>
-              </div>
-              <FormControl>
-                <Input type="password" placeholder="Password..." {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <p className=" text-xs text-center text-gray-400">
-          Don&apos;t have an account?{" "}
-          <Link href={`/signup`} className=" underline">
-            Sign up
-          </Link>
-        </p>
+
+
         <div className="flex flex-col gap-4 w-full">
           <p className=" text-xs text-gray-400 w-full"></p>
 
@@ -140,7 +106,7 @@ export function SigninForm() {
                 <Loader />
               ) : (
                 <>
-                  Login <LogInIcon className="w-5 h-5" />
+                  Forget Password <LogInIcon className="w-5 h-5" />
                 </>
               )}
             </Button>

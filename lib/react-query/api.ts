@@ -1,6 +1,6 @@
 import { USER } from "@/types/types";
 import axios from "axios";
-import { logoutUrl, signinUrl, signupUrl, verifyOtpUrl } from "../API-URLS";
+import { forgetPasswordUrl, logoutUrl, signinUrl, signupUrl, verifyOtpUrl } from "../API-URLS";
 import createAxiosInstance from "../ProtectedAxiosInstance";
 
 export const createNewUser = async (User: USER) => {
@@ -20,6 +20,19 @@ export const loginUser = async (email: string, password: string) => {
     const response = await axios.post(
       signinUrl,
       { email, password },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response;
+};
+
+export const forgetPassword = async (email: string) => {
+    const response = await axios.post(
+      forgetPasswordUrl,
+      { email },
       {
         headers: {
           "Content-Type": "application/json",
