@@ -1,6 +1,6 @@
 import { USER, UserResetPassword } from "@/types/types";
 import axios from "axios";
-import { healthUrl, forgetPasswordUrl, logoutUrl, signinUrl, signupUrl, verifyOtpUrl, resetPasswordUrl } from "../API-URLS";
+import { healthUrl, forgetPasswordUrl, logoutUrl, signinUrl, signupUrl, verifyOtpUrl, resetPasswordUrl, getNewsTagsUrl, getNewsByTagUrl, getAllNewsUrl } from "../API-URLS";
 import createAxiosInstance from "../ProtectedAxiosInstance";
 
 export const createNewUser = async (User: USER) => {
@@ -84,4 +84,25 @@ export const verifyOtp = async (otp: string, email:string) => {
       }
     );
     return response;
+};
+
+export const newsTags = async () => {
+  const response = await axios.get(
+    getNewsTagsUrl
+  );
+  return response;
+};
+
+export const getNewsByTag = async (tag:string) => {
+  const response = await axios.get(
+    `${getNewsByTagUrl}/${tag}`
+  );
+  return response;
+};
+
+export const getAllNews = async (limit:number,before:number,after:number) => {
+  const response = await axios.get(
+    `${getAllNewsUrl}?limit=${limit}&after=${after}&before=${before}`
+  );
+  return response;
 };

@@ -26,7 +26,9 @@ export default function Navbar() {
 
   const LogoutHandler = async () => {
     try {
-      const res = await logOutFn({ id, accessToken });
+      const res = await logOutFn({
+        id, accessToken
+      });
       if (res.status === 200) {
         dispatch(logOut());
         router.push("/signin");
@@ -36,7 +38,7 @@ export default function Navbar() {
     }
   };
   return (
-    <div className=" bg-[#D2DAFF] flex p-2 items-center justify-around dark:bg-[#1B2430]">
+    <div className=" bg-[#D2DAFF] w-full flex p-2 items-center justify-around dark:bg-[#1B2430]">
       <div className="flex gap-2 items-center justify-center">
         <Logo />
       </div>

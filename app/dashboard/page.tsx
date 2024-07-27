@@ -1,6 +1,4 @@
 "use client";
-import Categories from "@/components/shared/dashboard/Categories";
-import FilterNews from "@/components/shared/dashboard/FilterNews";
 import DashboardLoader from "@/components/shared/dashboard/Loader";
 import { useToast } from "@/components/ui/use-toast";
 import { useCheckHealth } from "@/lib/react-query/mutations";
@@ -42,6 +40,8 @@ export default function Page() {
     check();
   }, []);
 
+
+
   if (loadingResponse)
     return (
       <div className="flex items-center justify-center w-full h-full">
@@ -49,10 +49,7 @@ export default function Page() {
       </div>
     );
 
-  return <div className=" flex-1 flex flex-col items-center justify-around">
-    <div className="flex w-full items-center justify-around">
-    <Categories />
-    <FilterNews />
-    </div>
+  return <div className=" flex-1 max-h-full overflow-y-auto overflow-x-hidden flex flex-col items-center w-full justify-start">
+    hii
   </div>;
 }

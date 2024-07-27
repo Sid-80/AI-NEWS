@@ -15,6 +15,7 @@ export default function Page() {
         const getData = async() => {
             const res = await axiosInstance.get(getNewsPublicUrl);
             setNewsData(res.data);
+            console.log(res.data)
         }
         getData();
     },[])
