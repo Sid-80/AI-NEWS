@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/lib/redux/store";
 import { logOut } from "@/lib/redux/Auth/auth-slice";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import Logo from "../Logo";
 
 export default function Navbar() {
@@ -42,7 +43,9 @@ export default function Navbar() {
       </div>
       <div className="flex gap-1">
         <Button variant={"ghost"} size={"icon"}>
-          <User2Icon className="w-6 h-6" />
+          <Link className="flex gap-2" passHref href={"/news"}>
+            <User2Icon className="w-6 h-6" />
+          </Link>
         </Button>
         <Button variant={"ghost"} size={"icon"}>
           <SettingsIcon className="w-6 h-6" />
