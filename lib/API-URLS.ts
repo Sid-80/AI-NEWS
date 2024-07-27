@@ -1,5 +1,6 @@
 const backendUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}`
 export const getNewsPublicUrl = `${backendUrl}/news`
+export const getUserDetailsUrl = `${backendUrl}/api/v1/user/`
 export const getNewsTagsUrl = `${backendUrl}/news/tags`
 export const signupUrl = `${backendUrl}/api/v1/user/signup`
 export const signinUrl = `${backendUrl}/api/v1/user/login`

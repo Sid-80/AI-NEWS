@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/lib/redux/store";
 import { logOut } from "@/lib/redux/Auth/auth-slice";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import Logo from "../Logo";
 import Categories from "./Categories";
 
