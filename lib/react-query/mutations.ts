@@ -93,8 +93,8 @@ export const useGetAllNews = () => {
       limit,
     }: {
       limit: number;
-      before: number;
-      after: number;
+      before: number | null;
+      after: number | null;
     }) => getAllNews(limit,before,after),
   });
 };

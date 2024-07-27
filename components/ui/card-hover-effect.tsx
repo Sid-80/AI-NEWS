@@ -15,17 +15,12 @@ export const HoverEffect = ({
   let [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
-    <div
-      className={cn(
-        "flex flex-col  py-10",
-        className
-      )}
-    >
+    <div className={cn("flex flex-col  py-5", className)}>
       {items.map((item, idx) => (
         <Link
           href={`/dashboard/news/${item._id}`}
           key={item._id}
-          className="relative group  block p-2 h-full w-full"
+          className="relative group  block p-2 h-full w-[350px] sm:w-full"
           onMouseEnter={() => setHoveredIndex(idx)}
           onMouseLeave={() => setHoveredIndex(null)}
         >
@@ -48,11 +43,12 @@ export const HoverEffect = ({
           </AnimatePresence>
           <Card>
             <CardTitle>{item.headline}</CardTitle>
-            <div className="flex gap-2">
-            {item.tags.map((tag,index)=>(
+            <div className="flex gap-2 p-2 pt-4 overflow-x-auto overflow-y-hidden">
+              {item.tags?.map((tag, index) => (
                 <Badge key={index}>{tag}</Badge>
-            ))}
+              ))}
             </div>
+            <p className="pt-2 text-gray-500">{(item.publishedAt)}</p>
           </Card>
         </Link>
       ))}
@@ -88,7 +84,12 @@ export const CardTitle = ({
   children: React.ReactNode;
 }) => {
   return (
-    <h4 className={cn("dark:text-zinc-100 text-zinc-800 font-bold tracking-wide mt-1", className)}>
+    <h4
+      className={cn(
+        "dark:text-zinc-100 text-zinc-800 font-bold tracking-wide mt-1",
+        className
+      )}
+    >
       {children}
     </h4>
   );
