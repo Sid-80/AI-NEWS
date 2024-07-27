@@ -24,8 +24,7 @@ export type UserVerify = {
 }
 
 export type LogoutUser = {
-    email:string;
-    otp:string;id:string;
+    id:string;
     accessToken:string;
 }
 
@@ -38,3 +37,14 @@ export type UserResetPassword = {
     token:string;
     password:string;
 }
+
+interface NewsItem {
+    headline:string;
+    hostname:string;
+    imageUrl:string;
+    isSafetyError:boolean;
+    newsId:number;
+    publishedAt:string;
+    tags:string[]
+    _id:string;
+  }
