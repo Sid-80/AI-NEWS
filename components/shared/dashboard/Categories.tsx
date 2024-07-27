@@ -1,14 +1,9 @@
 "use client"
 import {
   NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuIndicator,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
-  NavigationMenuViewport,
 } from "@/components/ui/navigation-menu";
 import { useGetNewsTags } from "@/lib/react-query/mutations";
 import Link from "next/link";
@@ -31,8 +26,6 @@ export default function Categories() {
       try {
         const res = await getNewsTagsFn();
         setTags(res.data.slice(0,8))
-        tags
-        console.log(res.data)
       } catch (err) {
         console.log(err)
       }
@@ -40,31 +33,8 @@ export default function Categories() {
     getData()
   },[])
 
-  const components: { title: string; href: string }[] = [
-    {
-      title: "Latest",
-      href: `/dashboard`,
-    },
-    {
-      title: "Politics",
-      href: "/dashboard/politics",
-    },
-    {
-      title: "Tech",
-      href: "/dashboard/tech",
-    },
-    {
-      title: "Budget",
-      href: "/dashboard/budget",
-    },
-    {
-      title: "Company",
-      href: "/dashboard/company",
-    },
-  ];
-
   return (
-    <NavigationMenu>
+    <NavigationMenu className="hidden sm:block">
       <NavigationMenuList>
         <NavigationMenuItem key={`latest-0000`}>
             <Link href={`/dashboard`} legacyBehavior passHref>

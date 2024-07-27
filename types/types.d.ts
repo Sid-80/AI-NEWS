@@ -39,11 +39,12 @@ export type UserResetPassword = {
 }
 
 interface NewsItem {
-    newsId: number;
-    headline: string;
-    [key: string]: any; // Add other properties based on your data structure
-  }
-  
-  interface FetchNewsResponse {
-    data: NewsItem[];
+    headline:string;
+    hostname:string;
+    imageUrl:string;
+    isSafetyError:boolean;
+    newsId:number;
+    publishedAt:string;
+    tags:string[]
+    _id:string;
   }
