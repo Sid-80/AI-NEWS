@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/lib/redux/store";
 import { logOut } from "@/lib/redux/Auth/auth-slice";
 import { useRouter } from "next/navigation";
+import Logo from "../Logo";
 
 export default function Navbar() {
   const {
@@ -25,8 +26,8 @@ export default function Navbar() {
 
   const LogoutHandler = async () => {
     try {
-      await logOutFn({ id, accessToken });
-      if (isSuccess) {
+      const res = await logOutFn({ id, accessToken });
+      if (res.status === 200) {
         dispatch(logOut());
         router.push("/signin");
       }
@@ -35,8 +36,10 @@ export default function Navbar() {
     }
   };
   return (
-    <div className=" bg-[#D2DAFF] flex p-2 px-4 items-center justify-between dark:bg-[#1B2430]">
-      <h1 className="text-lg font-medium">Dashboard</h1>
+    <div className=" bg-[#D2DAFF] flex p-2 items-center justify-around dark:bg-[#1B2430]">
+      <div className="flex gap-2 items-center justify-center">
+        <Logo />
+      </div>
       <div className="flex gap-1">
         <Button variant={"ghost"} size={"icon"}>
           <User2Icon className="w-6 h-6" />

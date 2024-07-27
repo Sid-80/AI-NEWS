@@ -62,7 +62,7 @@ export function SigninForm() {
         password,
         email,
       });
-      if (isSuccess) {
+      if (res.status === 200) {
         toast({ title: "Welcome to SMARTBRIEFS!" });
         dispatch(logIn({
           id:res.data.user._id,
