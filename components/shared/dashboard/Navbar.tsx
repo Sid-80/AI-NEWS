@@ -10,6 +10,16 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Logo from "../Logo";
 import Categories from "./Categories";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import UserDetails from "./UserDetails";
+
 
 export default function Navbar() {
   const {
@@ -41,16 +51,28 @@ export default function Navbar() {
   };
   return (
     <div className=" bg-[#D2DAFF] w-full flex p-2 items-center justify-around dark:bg-[#1B2430]">
-      <div className="flex gap-2 items-center justify-center">
-        <Logo />
-      </div>
-      <div className="flex gap-1">
-        <Categories />
-        <Button onClick={() => LogoutHandler()} variant={"ghost"} size={"icon"}>
-          <LogOutIcon className="w-6 h-6" />
-        </Button>
-        <ThemeTogglebutton />
-      </div>
+      <DropdownMenu>
+        <div className="flex gap-2 items-center justify-center">
+          <Logo />
+        </div>
+        <div className="flex gap-1">
+          <Categories />
+          <DropdownMenuTrigger><User2Icon className="w-6 h-6" /></DropdownMenuTrigger>
+          {/* <Button onClick={() => LogoutHandler()} variant={"ghost"} size={"icon"}>
+            <LogOutIcon className="w-6 h-6" />
+          </Button> */}
+          <ThemeTogglebutton />
+        </div>
+
+        <DropdownMenuContent>
+          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <UserDetails/>
+          <DropdownMenuItem onClick={() => LogoutHandler()}>
+            Log Out
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>
   );
 }
