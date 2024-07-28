@@ -1,6 +1,6 @@
 import { USER, UserResetPassword } from "@/types/types";
 import axios from "axios";
-import { healthUrl, forgetPasswordUrl, logoutUrl, signinUrl, signupUrl, verifyOtpUrl, resetPasswordUrl, getNewsTagsUrl, getNewsByTagUrl, getAllNewsUrl } from "../API-URLS";
+import { healthUrl, forgetPasswordUrl, logoutUrl, signinUrl, signupUrl, verifyOtpUrl, resetPasswordUrl, getNewsTagsUrl, getNewsByTagUrl, getAllNewsUrl, getNewsByIdUrl } from "../API-URLS";
 import createAxiosInstance from "../ProtectedAxiosInstance";
 
 export const createNewUser = async (User: USER) => {
@@ -122,3 +122,11 @@ export const getAllNews = async (limit:number,before:number | null,after:number 
 
   return response;
 };
+
+export const getNewsById = async(id:string, accessToken:string) => {
+  const axiosInstance = createAxiosInstance(accessToken);
+  const response = await axiosInstance.get(
+    `${getNewsByIdUrl}/${id}/secured`
+  );
+  return response;
+}

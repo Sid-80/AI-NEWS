@@ -11,3 +11,4 @@ export const resetPasswordUrl = `${backendUrl}/api/v1/user/forget-password-final
 export const getNewsByTagUrl = `${backendUrl}/news/tags`
 export const healthUrl = `${backendUrl}/api/v1/user/health`
 export const getAllNewsUrl = `${backendUrl}/news`
+export const getNewsByIdUrl = `${backendUrl}/news`

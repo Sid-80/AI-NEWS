@@ -28,7 +28,7 @@ export function CategoriesMenu({ Tags }: Props) {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="outline" className="hover:bg-primary">Filter & Sort</Button>
+        <Button variant="outline" className="hover:bg-primary">Filter</Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>

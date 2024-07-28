@@ -11,6 +11,7 @@ import {
   newsTags,
   getNewsByTag,
   getAllNews,
+  getNewsById,
 } from "./api";
 import {
   LoginUser,
@@ -82,6 +83,12 @@ export const useGetNewsTags = () => {
 export const useGetNewsByTag = () => {
   return useMutation({
     mutationFn: ({ tag }: { tag: string }) => getNewsByTag(tag),
+  });
+};
+
+export const useGetNewsById = () => {
+  return useMutation({
+    mutationFn: ({ id,accessToken }: { id: string;accessToken:string; }) => getNewsById(id,accessToken),
   });
 };
 
