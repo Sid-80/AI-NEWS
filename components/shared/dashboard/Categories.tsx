@@ -1,58 +1,57 @@
-"use client"
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-} from "@/components/ui/navigation-menu";
+"use client";
+
 import { useGetNewsTags } from "@/lib/react-query/mutations";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import * as React from "react";
+
+import { useRouter } from "next/navigation";
+import { CategoriesMenu } from "./CategoriesMenu";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+
+type TagItem = {
+  tag: string;
+  count: string;
+};
 
 export default function Categories() {
   const pathname = usePathname();
 
-  const [tags,setTags] = useState<any[] | null>(null);
+  const [tags, setTags] = useState<TagItem[] | null>([]);
+  const [Alltags, setAllTags] = useState<TagItem[] | null>([]);
+  const { mutateAsync: getNewsTagsFn, isPending: loadingResponse } =
+    useGetNewsTags();
 
-  const {
-    mutateAsync: getNewsTagsFn,
-    isPending: loadingResponse
-  } = useGetNewsTags();
+  const [open, setOpen] = React.useState(false);
+  const [value, setValue] = React.useState("");
+  const router = useRouter();
 
-  useEffect(()=>{
-
-    const getData = async() => {
+  useEffect(() => {
+    const getData = async () => {
       try {
         const res = await getNewsTagsFn();
-        setTags(res.data.slice(0,8))
+        setTags(res.data.slice(0, 8));
+        setAllTags(res.data);
       } catch (err) {
-        console.log(err)
+        console.log(err);
       }
-    }
-    getData()
-  },[])
+    };
+    getData();
+  }, []);
 
-  return (
-    <NavigationMenu className="hidden sm:block">
-      <NavigationMenuList>
-        <NavigationMenuItem key={`latest-0000`}>
-            <Link href={`/dashboard`} legacyBehavior passHref>
-              <NavigationMenuLink className={`${pathname === "/dashboard" ? "bg-primary text-white":"dark:bg-[#1B2430] dark:hover:bg-[#121211] hover:bg-[#D2DAFF]/60 bg-[#D2DAFF]"} font-semibold rounded-md p-2 px-3 `}>
-                Latest
-              </NavigationMenuLink>
-            </Link>
-          </NavigationMenuItem>
-        {tags && tags.map((comp, index) => (
-          <NavigationMenuItem key={`${comp.tag}-${index}`}>
-            <Link href={`/dashboard/${comp.tag}`} legacyBehavior passHref>
-              <NavigationMenuLink className={`${pathname.includes(comp.tag) ? "bg-primary text-white":"dark:bg-[#1B2430] dark:hover:bg-[#121211] hover:bg-[#D2DAFF]/60 bg-[#D2DAFF]"} font-semibold rounded-md p-2 px-3 `}>
-                {comp.tag}
-              </NavigationMenuLink>
-            </Link>
-          </NavigationMenuItem>
-        ))}
-      </NavigationMenuList>
-    </NavigationMenu>
+  return tags ? (
+    <>
+      <Link href={"/dashboard"}>
+        <Button variant="outline" className="hover:bg-primary">
+          Latest
+        </Button>
+      </Link>
+      
+      <CategoriesMenu Tags={Alltags!} />
+    </>
+  ) : (
+    <></>
   );
 }

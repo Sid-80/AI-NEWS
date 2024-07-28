@@ -95,14 +95,30 @@ export const newsTags = async () => {
 
 export const getNewsByTag = async (tag:string) => {
   const response = await axios.get(
-    `${getNewsByTagUrl}/${tag}`
+    `${getNewsByTagUrl}/${tag}?limit=100`
   );
   return response;
 };
 
-export const getAllNews = async (limit:number,before:number,after:number) => {
-  const response = await axios.get(
-    `${getAllNewsUrl}?limit=${limit}&after=${after}&before=${before}`
-  );
+export const getAllNews = async (limit:number,before:number | null,after:number | null) => {
+  let response;
+  if(before && after){
+    response = await axios.get(
+      `${getAllNewsUrl}?limit=${limit}&after=${after}&before=${before}`
+    );
+  }else if(before){
+    response = await axios.get(
+      `${getAllNewsUrl}?limit=${limit}&before=${before}`
+    );
+  }else if(after){
+    response = await axios.get(
+      `${getAllNewsUrl}?limit=${limit}&after=${after}`
+    );
+  }else{
+    response = await axios.get(
+      `${getAllNewsUrl}?limit=${limit}`
+    );
+  }
+
   return response;
 };
